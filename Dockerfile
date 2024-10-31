@@ -19,28 +19,36 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Clone ComfyUI repository
-RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
+RUN git clone https://github.com/minkhant1996/ComfyUI-Min.git /comfyui
 
 # Change working directory to ComfyUI
 WORKDIR /comfyui
+
+# Update models_folder path in the configuration file
+RUN sed -i 's|models_folder:.*|models_folder: /runpod-volume/models|' min-comfyui-config.yaml
 
 # Install ComfyUI dependencies
 RUN pip3 install --upgrade --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
     && pip3 install --upgrade -r requirements.txt
 
 # Install runpod
-RUN pip3 install runpod requests
+RUN pip3 install runpod requests ultralytics
 
-# Support for the network volume
-ADD src_min/extra_model_paths.yaml ./
+RUN cd custom_nodes && git clone https://github.com/XLabs-AI/x-flux-comfyui.git \
+    && git clone https://github.com/alexopus/ComfyUI-Image-Saver.git \
+    && git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git
+    
+# Install Nodes
+RUN cd custom_nodes/x-flux-comfyui && pip3 install -r requirements.txt
+RUN cd custom_nodes/ComfyUI-Image-Saver && pip3 install -r requirements.txt
+RUN cd custom_nodes/ComfyUI-Impact-Pack && pip3 install -r requirements.txt && python3 install.py
+
+
 
 # Go back to the root
 WORKDIR /
 
-# Add the start and the handler
-ADD src_min/start.sh src_min/rp_handler.py src_min/test_input.json ./
 
-RUN chmod +x /start.sh
 
 # WORKDIR /comfyui
 
