@@ -12,5 +12,4 @@ services:
       - "8188:8188"
     runtime: nvidia
     volumes:
-      - /home/minkhant/Documents/BrookAI/AI_MODELS/output:/comfyui/output
       - /home/minkhant/Documents/BrookAI/AI_MODELS:/runpod-volume
