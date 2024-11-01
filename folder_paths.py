@@ -14,16 +14,11 @@ folder_names_and_paths: dict[str, tuple[list[str], set[str]]] = {}
 base_path = os.path.dirname(os.path.realpath(__file__))
 with open(os.path.join(base_path, "min-comfyui-config.yaml"), "r") as f:
     config = yaml.safe_load(f)
-    if "models_folder" in config:
-        models_folder = config["models_folder"]
-        output_folder = config["output_folder"]
-    else:
-        models_folder = "models"
-        output_folder = "output"
+    models_folder = config.get("models_folder", "models")
+    output_folder = config.get("output_folder", "output")
+
         
-print("models_folder", models_folder)
 models_dir = os.path.join("/".join(base_path.split("/")[:-1]), models_folder) # move to folder before comfyui, then add model folder
-print("models_dir", models_dir)
 folder_names_and_paths["checkpoints"] = ([os.path.join(models_dir, "checkpoints")], supported_pt_extensions)
 folder_names_and_paths["configs"] = ([os.path.join(models_dir, "configs")], [".yaml"])
 folder_names_and_paths["loras"] = ([os.path.join(models_dir, "loras")], supported_pt_extensions)
