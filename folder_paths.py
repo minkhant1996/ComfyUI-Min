@@ -45,6 +45,7 @@ folder_names_and_paths["photomaker"] = ([os.path.join(models_dir, "photomaker")]
 folder_names_and_paths["classifiers"] = ([os.path.join(models_dir, "classifiers")], {""})
 
 out_dir = os.path.join("/".join(base_path.split("/")[:-1]), output_folder) # move to folder before comfyui, then add output folder
+print(out_dir)
 output_directory = out_dir #os.path.join(os.path.dirname(os.path.realpath(__file__)), "output")
 temp_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), "temp")
 input_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), "input")

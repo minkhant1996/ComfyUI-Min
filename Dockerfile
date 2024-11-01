@@ -18,6 +18,9 @@ RUN apt-get update && apt-get install -y \
 # Clean up to reduce image size
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+
+WORKDIR /
+
 # Clone ComfyUI repository
 RUN git clone https://github.com/minkhant1996/ComfyUI-Min.git /comfyui
 
@@ -26,6 +29,7 @@ WORKDIR /comfyui
 
 # Update models_folder path in the configuration file
 RUN sed -i 's|models_folder:.*|models_folder: /runpod-volume/models|' min-comfyui-config.yaml
+RUN sed -i 's|output_folder:.*|output_folder: /runpod-volume/output|' min-comfyui-config.yaml
 
 # Install ComfyUI dependencies
 RUN pip3 install --upgrade --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
