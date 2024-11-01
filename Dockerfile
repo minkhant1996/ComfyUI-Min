@@ -32,12 +32,12 @@ RUN pip3 install --upgrade --no-cache-dir torch torchvision torchaudio --index-u
     && pip3 install --upgrade -r requirements.txt
 
 # Install runpod
-RUN pip3 install runpod requests ultralytics
+RUN pip3 install runpod requests ultralytics xformers
 
 RUN cd custom_nodes && git clone https://github.com/XLabs-AI/x-flux-comfyui.git \
     && git clone https://github.com/alexopus/ComfyUI-Image-Saver.git \
     && git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git
-    
+
 # Install Nodes
 RUN cd custom_nodes/x-flux-comfyui && pip3 install -r requirements.txt
 RUN cd custom_nodes/ComfyUI-Image-Saver && pip3 install -r requirements.txt
